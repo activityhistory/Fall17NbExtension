@@ -14,4 +14,4 @@ jupyter nbextension disable FigureCap [--sys-prefix|--user]
 
 ![](https://github.com/activityhistory/Fall17NbExtension/blob/master/Screen%20Shot%202017-11-07%20at%2010.35.22%20AM.png)
 -----------------------------------------------------------------------------
-## Check back for more extensions!
+

@@ -182,7 +182,7 @@ function html_table(jsonVars) {
     var varList = JSON.parse(String(jsonVars))
 
     var beg_table = '<div class=\"inspector\"><table class=\"table fixed table-condensed table-nonfluid \"><col /> \
- <col  /><col /><thead><tr><th >X</th><th >Name</th><th >Type</th><th >Size</th><th >Value</th><th >Last Updated</th></tr></thead><tr><td> \
+ <col  /><col /><thead><tr><th >Name</th><th >Type</th><th >Size</th><th >Value</th><th >Last Updated</th></tr></thead><tr><td> \
  </td></tr>'
     var nb_vars = varList.length;
     var nameSpace_list = []
@@ -192,13 +192,20 @@ function html_table(jsonVars) {
     var InNumber_list = getIn(nameSpace_list)
     for (var i = 0; i < nb_vars; i++) {
         var InNumber = "In["+InNumber_list[i]+"]"
-        beg_table = beg_table +
-            '<tr><td><a href=\"#\" onClick=\"Jupyter.notebook.kernel.execute(\'' +
-            kernel_config.delete_cmd_prefix + varList[i].varName + kernel_config.delete_cmd_postfix + '\'' + '); ' +
-            'Jupyter.notebook.events.trigger(\'varRefresh\'); \">x</a></td>' +
-            '<td>' + _trunc(varList[i].varName, cfg.cols.lenName) + '</td><td>' + _trunc(varList[i].varType, cfg.cols.lenType) +
-            '</td><td>' + varList[i].varSize + '</td><td>' + _trunc(varList[i].varContent, cfg.cols.lenVar) + '</td><td>' + InNumber +
-            '</td></tr>'
+        if(varList[i].varType=='DataFrame'){
+            beg_table = beg_table +
+                '<tr>' +
+                '<td>' + _trunc(varList[i].varName, cfg.cols.lenName) + '</td><td>' + _trunc(varList[i].varType, cfg.cols.lenType) +
+                '</td><td>' + varList[i].varSize + '</td><td>' + 'dataframe' + '</td><td>' + InNumber +
+                '</td></tr>'
+        }
+        else {
+            beg_table = beg_table +
+                '<tr>' +
+                '<td>' + _trunc(varList[i].varName, cfg.cols.lenName) + '</td><td>' + _trunc(varList[i].varType, cfg.cols.lenType) +
+                '</td><td>' + varList[i].varSize + '</td><td>' + _trunc(varList[i].varContent, cfg.cols.lenVar) + '</td><td>' + InNumber +
+                '</td></tr>'
+        }
     }
     var full_table = beg_table + '</table></div>'
     return full_table
